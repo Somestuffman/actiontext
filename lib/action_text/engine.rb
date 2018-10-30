@@ -31,12 +31,12 @@ module ActionText
 
     initializer "action_text.config" do
       config.after_initialize do |app|
-        ActionText.renderer ||= ActionController::Base.renderer
+        ActionText.renderer ||= ::ApplicationController.renderer
 
         # FIXME: ApplicationController should have a per-request specific renderer
         # that's been set with the request.env env, and ActionText should just piggyback off
         # that by default rather than doing this work directly.
-        ActionController::Base.before_action do
+        ::ApplicationController.before_action do
           ActionText.renderer = ActionText.renderer.new(request.env)
         end
       end
